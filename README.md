@@ -8,6 +8,7 @@ react native / expo 으로 제작
 - axios
 - @expo/vector-icons
 - (★) react-navigation
+- axios
 
 ## Screens
 
