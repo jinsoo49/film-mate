@@ -16,3 +16,5 @@ react native / expo 으로 제작
 - [] TV Shows
 - [] Search
 - [] Detail
+
+* Container + Presenter 디자인 패턴 사용

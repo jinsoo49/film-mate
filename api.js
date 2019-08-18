@@ -21,17 +21,17 @@ TV / Movie Search
 
 */
 
-export const moviesApi = {
-  nowPlaying: () => api.get("movie/now_playing"),
-  upcoming: () => api.get("movie/upcoming"),
-  popular: () => api.get("movie/popular"),
-  movieDetail: id =>
+export const movies = {
+  getNowPlaying: () => api.get("movie/now_playing"),
+  getUpcoming: () => api.get("movie/upcoming"),
+  getPopular: () => api.get("movie/popular"),
+  getMovie: id =>
     api.get(`movie/${id}`, {
       params: {
         append_to_response: "videos"
       }
     }),
-  search: term =>
+  searchMovies: term =>
     api.get("search/movie", {
       params: {
         // String이 되어야 하기 때문에 자바스크립트에서 uri encoding
@@ -40,17 +40,17 @@ export const moviesApi = {
     })
 };
 
-export const tvApi = {
-  topRated: () => api.get("tv/top_rated"),
-  popular: () => api.get("tv/popular"),
-  airingToday: () => api.get("tv/airing_today"),
-  showDetail: id =>
+export const tv = {
+  getTopRated: () => api.get("tv/top_rated"),
+  getPopular: () => api.get("tv/popular"),
+  getAiringToday: () => api.get("tv/airing_today"),
+  getShow: id =>
     api.get(`tv/${id}`, {
       params: {
         append_to_response: "videos"
       }
     }),
-  search: term =>
+  searchShow: term =>
     api.get("search/tv", {
       params: {
         query: encodeURIComponent(term)
