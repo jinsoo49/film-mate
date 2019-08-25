@@ -6,7 +6,7 @@ export default class extends React.Component {
   state = {
     loading: true,
     popular: null,
-    topRated: null,
+    airingThisWeek: null,
     airingToday: null,
     error: null
   };
