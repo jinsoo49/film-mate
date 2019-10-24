@@ -51,7 +51,7 @@ const TabNavigation = createBottomTabNavigator(
   },
   {
     // 두번째 인자 - 설정값들을 가진 object
-    initialRouteName: "Search",
+    initialRouteName: "Movies",
     tabBarOptions: {
       showLabel: false,
       style: {

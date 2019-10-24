@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TVPresenter from "./TVPresenter.js";
 import { tv } from "../../api.js";
 
-export default class extends React.Component {
-  state = {
-    loading: true,
-    popular: null,
-    airingThisWeek: null,
-    airingToday: null,
-    error: null
-  };
+export default function TVContainer() {
+  const [loading, setLoading] = useState(true);
+  const [popular, setPopular] = useState(null);
+  const [topRated, setTopRated] = useState(null);
+  const [airingToday, setAiringToday] = useState(null);
+  const [error, setError] = useState(null);
 
-  // await을 사용하고 싶은곳에 async
-  async componentDidMount() {
+  async function LoadTV() {
     let popular, topRated, airingToday, error;
     try {
       ({
@@ -25,29 +22,26 @@ export default class extends React.Component {
         data: { results: airingToday }
       } = await tv.getAiringToday());
     } catch (error) {
-      console.log(error);
-      error = "tv 정보를 얻을 수 없습니다:(";
+      setError("tv 정보를 얻을 수 없습니다:(");
     } finally {
-      this.setState({
-        loading: false,
-        popular,
-        topRated,
-        airingToday,
-        error
-      });
+      setLoading(false);
+      setPopular(popular);
+      setTopRated(topRated);
+      setAiringToday(airingToday);
+      setError(error);
     }
   }
 
-  render() {
-    const { loading, popular, topRated, airingToday } = this.state;
-    console.log(this.state);
-    return (
-      <TVPresenter
-        loading={loading}
-        popular={popular}
-        topRated={topRated}
-        airingToday={airingToday}
-      />
-    );
-  }
+  useEffect(() => {
+    LoadTV();
+  }, []);
+
+  return (
+    <TVPresenter
+      loading={loading}
+      popular={popular}
+      topRated={topRated}
+      airingToday={airingToday}
+    />
+  );
 }

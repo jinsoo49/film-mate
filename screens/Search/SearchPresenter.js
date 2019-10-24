@@ -66,6 +66,7 @@ const SearchPresenter = ({
                       posterPhoto={movie.poster_path}
                       title={movie.title}
                       overview={movie.overview}
+                      backgroundPhoto={movie.backdrop_path}
                       voteAvg={movie.vote_average}
                     />
                   ))}
@@ -79,8 +80,10 @@ const SearchPresenter = ({
                   .filter(tv => tv.poster_path !== null)
                   .map(tv => (
                     <MovieItem
+                      isMovie={false}
                       key={tv.id}
                       id={tv.id}
+                      backgroundPhoto={tv.backdrop_path}
                       posterPhoto={tv.poster_path}
                       title={tv.name}
                       voteAvg={tv.vote_average}

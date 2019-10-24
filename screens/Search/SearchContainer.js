@@ -1,29 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchPresenter from "./SearchPresenter";
 import { movies, tv } from "../../api";
 
-export default class extends React.Component {
-  state = {
-    loading: false,
-    movieResults: null,
-    tvResults: null,
-    searchTerm: "",
-    error: null
+export default function SearchContainer() {
+  const [loading, setLoading] = useState(false);
+  const [movieResults, setMovieResults] = useState(null);
+  const [tvResults, setTvResults] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleSearchUpdate = text => {
+    setSearchTerm(text);
   };
 
-  handleSearchUpdate = text => {
-    this.setState({
-      searchTerm: text
-    });
-  };
-
-  onSubmitEditing = async () => {
-    const { searchTerm } = this.state;
+  const onSubmitEditing = async () => {
     if (searchTerm !== "") {
-      let loading, movieResults, tvResults, error;
-      this.setState({
-        loading: true
-      });
+      let movieResults, tvResults;
+      setLoading(true);
       try {
         ({
           data: { results: movieResults }
@@ -33,35 +26,24 @@ export default class extends React.Component {
           data: { results: tvResults }
         } = await tv.searchShow(searchTerm));
       } catch {
-        error = "can't search";
+        setError("can't search");
       } finally {
-        this.setState({
-          loading: false,
-          movieResults,
-          tvResults
-        });
+        setLoading(false);
+        setMovieResults(movieResults);
+        setTvResults(tvResults);
       }
       return;
     }
   };
 
-  render() {
-    const {
-      loading,
-      movieResults,
-      tvResults,
-      searchTerm,
-      handleSearchUpdate
-    } = this.state;
-    return (
-      <SearchPresenter
-        loading={loading}
-        movieResults={movieResults}
-        tvResults={tvResults}
-        searchTerm={searchTerm}
-        onSubmitEditing={this.onSubmitEditing}
-        handleSearchUpdate={this.handleSearchUpdate}
-      />
-    );
-  }
+  return (
+    <SearchPresenter
+      loading={loading}
+      movieResults={movieResults}
+      tvResults={tvResults}
+      searchTerm={searchTerm}
+      onSubmitEditing={onSubmitEditing}
+      handleSearchUpdate={handleSearchUpdate}
+    />
+  );
 }
